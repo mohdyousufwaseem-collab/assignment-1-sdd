@@ -98,4 +98,4 @@ corrections, and unresolved assumptions in the relevant artifact. Work that conf
 principle MUST be corrected or explicitly resolved through an approved constitution amendment;
 unreviewed deviations MUST NOT be treated as compliant.
 
-**Version**: 1.0.0 | **Ratified**: 27-10-2026: original adoption date unknown | **Last Amended**: 2026-10-27
+**Version**: 1.0.0 | **Ratified**: 27-10-2026 | **Last Amended**: 2026-10-27

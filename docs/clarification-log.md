@@ -76,3 +76,21 @@ This log identifies the unanswered questions, documents the decisions selected f
 ## 6. Change Control
 
 Any changed decision must be recorded here with the affected question ID, previous decision, revised decision, reason for change, and date. Changes affecting the specification must be reflected in the corresponding requirements and acceptance criteria before the planning baseline is established.
+
+
+## Independent Specification Review — 2026-10-28
+
+**Reviewer:** Project author  
+**Review type:** Independent self-review; no mentor or business-owner review was conducted.
+
+### Decisions
+
+- Accepted quantity in servings and per-serving calorie and protein values.
+- Accepted the proposed numeric ranges, input precision, and rounding rules.
+- Accepted generic initial targets of 2,000 kcal and 50 g protein, clearly identified as defaults rather than personalized nutritional advice.
+- Reviewed the specification and requirements checklist and corrected the Markdown formatting.
+- Accepted the proposed assumptions as the planning baseline for the initial implementation.
+
+### Remaining limitations
+
+These decisions are project assumptions and may be revised if requirements change. The initial application remains limited to one local user, local persistence, calorie and protein tracking, and the scope defined in `spec.md`.

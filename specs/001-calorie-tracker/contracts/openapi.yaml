@@ -1,0 +1,399 @@
+openapi: 3.1.0
+info:
+  title: Calorie and Nutrition Tracker Local API
+  version: 1.0.0
+  description: >-
+    Same-origin API for one local user. Numeric values are decimal strings to preserve
+    input precision and display rules. The service is loopback-only.
+servers:
+  - url: http://127.0.0.1:8000
+    description: Local development and runtime origin
+paths:
+  /api/days/{date}:
+    get:
+      operationId: getDay
+      summary: Get entries and summary for one local calendar date
+      parameters:
+        - name: date
+          in: path
+          required: true
+          description: ISO calendar date (YYYY-MM-DD), today or earlier.
+          schema:
+            $ref: '#/components/schemas/LocalDate'
+      responses:
+        '200':
+          description: Selected day's persisted entries and derived summary. For an empty day, has_entries is false and summary still includes the current targets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DayResponse'
+              examples:
+                emptyDay:
+                  summary: Empty day with current generic targets
+                  value:
+                    date: '2026-10-28'
+                    has_entries: false
+                    meals: []
+                    summary:
+                      calories:
+                        intake: '0.00'
+                        target: '2000.00'
+                        remaining: '2000.00'
+                        excess: '0.00'
+                        progress_percent: '0.0'
+                      protein:
+                        intake: '0.00'
+                        target: '50.00'
+                        remaining: '50.00'
+                        excess: '0.00'
+                        progress_percent: '0.0'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/PersistenceError'
+  /api/meals:
+    post:
+      operationId: createMeal
+      summary: Create and persist a meal entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MealInput'
+      responses:
+        '201':
+          description: Entry returned only after transaction commit.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/PersistenceError'
+  /api/meals/{mealId}:
+    put:
+      operationId: updateMeal
+      summary: Replace an existing meal entry
+      parameters:
+        - $ref: '#/components/parameters/MealId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MealInput'
+      responses:
+        '200':
+          description: Updated entry returned only after transaction commit.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/PersistenceError'
+    delete:
+      operationId: deleteMeal
+      summary: Delete an existing meal entry
+      parameters:
+        - $ref: '#/components/parameters/MealId'
+      responses:
+        '204':
+          description: Entry deleted only after transaction commit.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/PersistenceError'
+  /api/targets:
+    get:
+      operationId: getTargets
+      summary: Get current targets, initializing defaults when absent
+      responses:
+        '200':
+          description: Current persisted targets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Targets'
+        '500':
+          $ref: '#/components/responses/PersistenceError'
+    put:
+      operationId: replaceTargets
+      summary: Replace both current daily targets atomically
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TargetsInput'
+      responses:
+        '200':
+          description: Targets returned only after transaction commit.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Targets'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/PersistenceError'
+components:
+  parameters:
+    MealId:
+      name: mealId
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+  schemas:
+    MealCategory:
+      type: string
+      enum: [Breakfast, Lunch, Dinner, Snack]
+    MealInput:
+      type: object
+      additionalProperties: false
+      required: [name, category, date, quantity, calories_per_serving, protein_per_serving]
+      description: Backend validation trims name before enforcing its 1-80 character length, validates the category and actual ISO calendar date, rejects future dates, and enforces exact inclusive numeric ranges before persistence.
+      properties:
+        name:
+          $ref: '#/components/schemas/MealName'
+        category:
+          $ref: '#/components/schemas/MealCategory'
+        date:
+          $ref: '#/components/schemas/LocalDate'
+        quantity:
+          $ref: '#/components/schemas/Quantity'
+        calories_per_serving:
+          $ref: '#/components/schemas/CaloriesPerServing'
+        protein_per_serving:
+          $ref: '#/components/schemas/ProteinPerServing'
+    Meal:
+      type: object
+      additionalProperties: false
+      required: [id, name, category, date, quantity, calories_per_serving, protein_per_serving]
+      description: Persisted meal returned by the API. Numeric fields are normalized to exactly two fractional digits.
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          $ref: '#/components/schemas/MealName'
+        category:
+          $ref: '#/components/schemas/MealCategory'
+        date:
+          $ref: '#/components/schemas/LocalDate'
+        quantity:
+          $ref: '#/components/schemas/AmountString'
+        calories_per_serving:
+          $ref: '#/components/schemas/AmountString'
+        protein_per_serving:
+          $ref: '#/components/schemas/AmountString'
+    MealName:
+      type: string
+      description: Backend trims surrounding whitespace, then accepts 1-80 characters. Responses contain the trimmed stored name.
+    LocalDate:
+      type: string
+      format: date
+      description: Backend must parse a real ISO calendar date in YYYY-MM-DD form and reject dates after the computer's local date.
+    AmountString:
+      type: string
+      pattern: '^\d+\.\d{2}$'
+      description: Nonnegative decimal amount serialized with exactly two fractional digits.
+    Quantity:
+      type: string
+      pattern: '^\d+(\.\d{1,2})?$'
+      examples: ['0.01', '2.50', '100.00']
+      description: >-
+        Input is a decimal string with digits and an optional decimal point followed by one or
+        two digits. Backend validation must reject zero, negative values, values below 0.01 or
+        above 100.00, signs, commas, exponent notation, malformed text, and excess fractional
+        digits; the inclusive range is 0.01-100.00 servings. The regex defines lexical format;
+        backend validation enforces the exact numeric range.
+    CaloriesPerServing:
+      type: string
+      pattern: '^\d+(\.\d{1,2})?$'
+      examples: ['0.00', '72.00', '10000.00']
+      description: >-
+        Input is a decimal string with digits and an optional decimal point followed by one or
+        two digits. Backend validation must accept the inclusive range 0.00-10000.00 kcal per
+        serving and reject negative or out-of-range values, signs, commas, exponent notation,
+        malformed text, and excess fractional digits. The regex defines lexical format;
+        backend validation enforces the exact numeric range.
+    ProteinPerServing:
+      type: string
+      pattern: '^\d+(\.\d{1,2})?$'
+      examples: ['0.00', '6.30', '1000.00']
+      description: >-
+        Input is a decimal string with digits and an optional decimal point followed by one or
+        two digits. Backend validation must accept the inclusive range 0.00-1000.00 g per
+        serving and reject negative or out-of-range values, signs, commas, exponent notation,
+        malformed text, and excess fractional digits. The regex defines lexical format;
+        backend validation enforces the exact numeric range.
+    TargetsInput:
+      type: object
+      additionalProperties: false
+      required: [calories, protein]
+      properties:
+        calories:
+          $ref: '#/components/schemas/CalorieTarget'
+        protein:
+          $ref: '#/components/schemas/ProteinTarget'
+    Targets:
+      type: object
+      additionalProperties: false
+      required: [calories, protein]
+      description: Current targets, serialized as exactly two fractional digits; these values are included in every day summary, including empty days.
+      properties:
+        calories:
+          $ref: '#/components/schemas/AmountString'
+        protein:
+          $ref: '#/components/schemas/AmountString'
+    CalorieTarget:
+      type: string
+      pattern: '^\d+(\.\d{1,2})?$'
+      examples: ['2000.00', '100000.00']
+      description: >-
+        Input is a decimal string with digits and an optional decimal point followed by one or
+        two digits. Backend validation must accept the inclusive range 1.00-100000.00 kcal and
+        reject zero, negative or out-of-range values, signs, commas, exponent notation,
+        malformed text, and excess fractional digits. The regex defines lexical format;
+        backend validation enforces the exact numeric range.
+    ProteinTarget:
+      type: string
+      pattern: '^\d+(\.\d{1,2})?$'
+      examples: ['50.00', '10000.00']
+      description: >-
+        Input is a decimal string with digits and an optional decimal point followed by one or
+        two digits. Backend validation must accept the inclusive range 0.01-10000.00 g and
+        reject zero, negative or out-of-range values, signs, commas, exponent notation,
+        malformed text, and excess fractional digits. The regex defines lexical format;
+        backend validation enforces the exact numeric range.
+    NutrientSummary:
+      type: object
+      required: [intake, target, remaining, excess, progress_percent]
+      properties:
+        intake:
+          type: string
+          pattern: '^\d+\.\d{2}$'
+          description: Actual uncapped daily intake, rounded half-up to two fractional digits.
+        target:
+          type: string
+          pattern: '^\d+\.\d{2}$'
+          description: Current target, including on days with no entries, formatted to two fractional digits.
+        remaining:
+          type: string
+          pattern: '^\d+\.\d{2}$'
+          description: Zero at or above target; otherwise target minus intake, rounded for display.
+        excess:
+          type: string
+          pattern: '^\d+\.\d{2}$'
+          description: Zero at or below target; otherwise intake minus target, rounded for display.
+        progress_percent:
+          type: string
+          pattern: '^\d+\.\d$'
+          description: Uncapped intake divided by target, multiplied by 100 and rounded half-up to one decimal place.
+    DaySummary:
+      type: object
+      required: [calories, protein]
+      properties:
+        calories:
+          $ref: '#/components/schemas/NutrientSummary'
+        protein:
+          $ref: '#/components/schemas/NutrientSummary'
+    DayResponse:
+      type: object
+      required: [date, has_entries, meals, summary]
+      properties:
+        date:
+          $ref: '#/components/schemas/LocalDate'
+        has_entries:
+          type: boolean
+          description: False when meals is empty; summary still contains the current calorie and protein targets.
+        meals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meal'
+        summary:
+          $ref: '#/components/schemas/DaySummary'
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [validation_failed, not_found, persistence_failed]
+            message:
+              type: string
+            fields:
+              type: object
+              additionalProperties:
+                type: string
+    ValidationErrorBody:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message, fields]
+          properties:
+            code:
+              const: validation_failed
+            message:
+              type: string
+            fields:
+              type: object
+              additionalProperties:
+                type: string
+    NotFoundErrorBody:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              const: not_found
+            message:
+              type: string
+    PersistenceErrorBody:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              const: persistence_failed
+            message:
+              type: string
+  responses:
+    ValidationError:
+      description: Invalid field, date, category, or numeric value; nothing was persisted.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrorBody'
+    NotFound:
+      description: No meal entry exists with the requested identifier.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundErrorBody'
+    PersistenceError:
+      description: Local persistence failed; response contains no database details and no success is reported.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PersistenceErrorBody'

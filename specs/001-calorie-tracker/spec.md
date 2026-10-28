@@ -169,7 +169,7 @@ create, edit, delete, and target-update operations and verify the last saved sta
 ### Measurable Outcomes
 
 - **SC-001**: For every valid calculation case in the acceptance scenarios, each displayed calorie and protein total equals the sum of each entry's per-serving value multiplied by its quantity, rounded once to two decimal places using round-half-up.
-- **SC-002**: 100% of the invalid input cases in the stated validation matrix are rejected, identify the invalid field, and leave the last confirmed totals unchanged.
+- **SC-002**: 100% of invalid inputs covered by FR-012-FR-015, AC-019-AC-022, and the food-name and numeric rules in Assumptions are rejected with the invalid field identified, while leaving the last confirmed totals unchanged.
 - **SC-003**: In below-target, exact-target, and above-target cases, 100% of displayed remaining, excess, and progress values match the specified comparison rules, with above-target intake uncapped.
 - **SC-004**: After a successful close-and-reopen cycle, 100% of saved entries and current targets retain their previously confirmed values.
 - **SC-005**: For every simulated failed save in the acceptance scenarios, no failed change is shown as saved and the displayed state matches the last successfully saved state.

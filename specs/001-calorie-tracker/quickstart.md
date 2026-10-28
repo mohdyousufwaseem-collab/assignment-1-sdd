@@ -12,6 +12,9 @@ the implementation phase creates the planned files. No tests were run while prep
 - Internet access for the initial dependency installation; the built application must not
   require internet at runtime.
 
+This v1 quickstart supports Windows 10/11 only. macOS and Linux are out of scope unless the
+project scope is explicitly expanded.
+
 The SQLite database is stored under `%LOCALAPPDATA%\CalorieTracker\tracker.sqlite3` by default
 and can be relocated with `CALORIE_TRACKER_DATA_DIR`. It must not be stored in the repository.
 

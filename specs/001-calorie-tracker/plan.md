@@ -25,7 +25,7 @@ success only after commit.
 
 **Testing**: pytest and FastAPI test client/httpx; Vitest and React Testing Library; documented end-to-end offline smoke test.
 
-**Target Platform**: Windows 10/11 for the current assignment environment. Other operating-system support is not established by the input and remains an open portability question.
+**Target Platform**: Windows 10/11 only for v1, based on the current assignment environment. macOS and Linux are out of scope unless the project scope is explicitly expanded.
 
 **Project Type**: Locally hosted web application with a browser client and local service.
 
@@ -161,13 +161,13 @@ repository with a frontend and backend subproject; keep backend domain logic and
 separate, and organize React by feature. This avoids separate repositories or deployable
 services while allowing focused tests.
 
-## Open Technical Question
+## Platform Scope
 
-The current environment is Windows, so the proposed default database path uses
-`%LOCALAPPDATA%`. Confirm whether macOS/Linux support is required before implementation. If it
-is, select platform-specific user-data paths and add setup/verification coverage for those
-platforms. This is a portability question, not an unresolved business rule or stakeholder
-decision.
+For this draft plan, Windows 10/11 is the only supported v1 platform, based on the current
+assignment workspace. This is a documented planning assumption, not a claim of mentor or
+business-owner approval. Use `%LOCALAPPDATA%` for the default database location. macOS and Linux
+are out of scope; supporting them requires an explicit project-scope decision and corresponding
+platform-specific data-directory and setup/verification work.
 
 ## Post-Design Constitution Check
 
@@ -179,9 +179,8 @@ decision.
 | Privacy and security | Pass: loopback binding, local-only storage/assets, no data transmission, and no secret storage are specified. |
 | Maintainability and human review | Pass as design: modular layout and reproducible commands are documented; plan remains a draft for owner review, and no mentor approval is claimed. |
 
-No post-design gate failures remain. The only open technical question is supported operating
-systems, documented above; Windows is the plan's current target and does not block the proposed
-local architecture.
+No post-design gate failures remain. The v1 platform assumption is Windows 10/11 only; it is
+documented above and remains subject to project-owner review with the rest of this draft plan.
 
 ## Complexity Tracking
 

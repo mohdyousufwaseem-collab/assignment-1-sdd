@@ -102,9 +102,17 @@ browser smoke test with internet disabled.
 mutations, database restart persistence, and the offline/privacy promise without requiring a
 production service. See [`quickstart.md`](quickstart.md).
 
-## Open Technical Question
-
-The current environment is Windows. The plan proposes Windows 10/11 and `%LOCALAPPDATA%` for the
-default database location. Confirm whether other operating systems are required before
-implementation; if so, add platform-specific data-directory resolution and verification. This
 does not change the business scope or require a stakeholder decision about nutrition behavior.
+## Platform Scope Decision
+
+**Decision**: For the v1 plan, support Windows 10/11 only and use `%LOCALAPPDATA%` for the
+default per-user database directory. Treat macOS and Linux as out of scope unless the project
+scope is explicitly expanded.
+
+**Rationale**: The assignment is being developed in a Windows workspace, and the proposed
+quickstart uses PowerShell and Windows paths. Limiting the initial platform avoids adding
+untested platform-specific setup and data-directory behavior to a fundamentals assignment.
+
+This is a documented planning assumption, not a claim of mentor or business-owner approval. If
+the project owner expands platform scope, add platform-specific data-directory resolution and
+setup/verification coverage before implementation on those systems.

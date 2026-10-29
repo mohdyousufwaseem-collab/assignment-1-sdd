@@ -48,6 +48,7 @@ external origins.
 ```powershell
 $env:PYTHONPATH = "src\backend"
 python -m pytest tests\backend
+npm --prefix src\frontend run typecheck
 npm --prefix src\frontend test -- --run
 ```
 

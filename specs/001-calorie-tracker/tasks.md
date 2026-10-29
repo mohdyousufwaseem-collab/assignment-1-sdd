@@ -16,51 +16,40 @@ description: "Implementation task list for Calorie and Nutrition Tracker"
 
 **Purpose**: Create the frontend/backend project skeleton and installable dependency manifests.
 
-- [ ] T001 Create folders `src/backend/app/api`, `src/backend/app/domain`, `src/backend/app/storage`, `src/backend/app/static`, `src/frontend/src/api`, `src/frontend/src/features`, `tests/backend/unit`, `tests/backend/integration`, and `tests/frontend` per `specs/001-calorie-tracker/plan.md`
-- [ ] T002 [P] Create `src/backend/requirements.txt` with the planned FastAPI, Pydantic 2, Uvicorn, pytest, and httpx dependencies
-- [ ] T003 [P] Create `src/frontend/package.json` with the planned React 19, TypeScript, Vite, Vitest, and React Testing Library dependencies and development/build/test/typecheck scripts
-- [ ] T004 Configure `src/frontend/vite.config.ts` to proxy `/api` to `127.0.0.1:8000`, build assets into `src/backend/app/static`, and include `../../tests/frontend/**/*.{test,spec}.{ts,tsx}` in Vitest discovery
-- [ ] T005 Create `src/frontend/index.html`, `src/frontend/src/main.tsx`, `src/frontend/src/App.tsx`, `src/frontend/tsconfig.json`, and `src/frontend/tsconfig.app.json`; configure the React root mount and strict JSX/type checking. Completion criteria: `npm --prefix src/frontend run typecheck` and `npm --prefix src/frontend run build` both succeed, and the build writes assets to `src/backend/app/static` (depends on T003, T004)
+- [X] T001 Create folders `src/backend/app/api`, `src/backend/app/domain`, `src/backend/app/storage`, `src/backend/app/static`, `src/frontend/src/api`, `src/frontend/src/features`, `tests/backend/unit`, `tests/backend/integration`, and `tests/frontend` per `specs/001-calorie-tracker/plan.md`
+- [X] T002 [P] Create `src/backend/requirements.txt` with the planned FastAPI, Pydantic 2, Uvicorn, pytest, and httpx dependencies
+- [X] T003 [P] Create `src/frontend/package.json` with the planned React 19, TypeScript, Vite, Vitest, and React Testing Library dependencies and development/build/test/typecheck scripts
+- [X] T004 Configure `src/frontend/vite.config.ts` to proxy `/api` to `127.0.0.1:8000`, build assets into `src/backend/app/static`, and include `../../tests/frontend/**/*.{test,spec}.{ts,tsx}` in Vitest discovery
+- [X] T005 Create `src/frontend/index.html`, `src/frontend/src/main.tsx`, `src/frontend/src/App.tsx`, `src/frontend/tsconfig.json`, and `src/frontend/tsconfig.app.json`; configure the React root mount and strict JSX/type checking. Completion criteria: `npm --prefix src/frontend run typecheck` and `npm --prefix src/frontend run build` both succeed, and the build writes assets to `src/backend/app/static` (depends on T003, T004)
 
 ---
 
 ## Phase 2: Foundational
-
-**Purpose**: Implement shared configuration, persistence primitives, numeric parsing, API schemas, and application composition. These tasks block all user stories.
-
-- [ ] T006 [P] Implement `src/backend/app/config.py` to use `%LOCALAPPDATA%\CalorieTracker` by default, allow `CALORIE_TRACKER_DATA_DIR` override, create the selected directory, and keep the SQLite file outside the repository
-- [ ] T007 [P] Create `src/backend/app/storage/schema.sql` with meal-entry and singleton-target tables; enforce the category set `Breakfast`, `Lunch`, `Dinner`, `Snack`, local calendar date format, quantity `0.01-100.00`, calories per serving `0.00-10000.00`, protein per serving `0.00-1000.00`, calorie target `1.00-100000.00`, and protein target `0.01-10000.00` as inclusive bounds
-- [ ] T008 Implement `src/backend/app/storage/database.py` to initialize the schema from T007, use the data path from T006, seed current targets to `2000.00` kcal and `50.00` g once, and provide transaction commit/rollback boundaries (depends on T006, T007)
-- [ ] T009 [P] Implement `src/backend/app/domain/numeric.py` to parse unsigned decimal strings with at most two fractional digits into integer hundredths, reject malformed or out-of-range values without float conversion, calculate unrounded totals, and format two-decimal amounts and one-decimal half-up progress
-- [ ] T010 [P] Define request/response schemas and shared error helpers in `src/backend/app/api/schemas.py` and `src/backend/app/api/errors.py` to match `specs/001-calorie-tracker/contracts/openapi.yaml`, including field-level `validation_failed`, `not_found`, and `persistence_failed` envelopes
-- [ ] T011 Compose the FastAPI application in `src/backend/app/main.py` and `src/backend/app/api/router.py`; include API routes, serve `src/backend/app/static`, bind only to `127.0.0.1`, and reject state-changing requests with an unexpected Host/Origin (depends on T008, T010)
-- [ ] T012 [P] Implement same-origin typed request helpers in `src/frontend/src/api/client.ts` for the operations and decimal-string contracts in `specs/001-calorie-tracker/contracts/openapi.yaml` (depends on T003, T004, T005)
+- [X] T006 [P] Implement `src/backend/app/config.py` to use `%LOCALAPPDATA%\CalorieTracker` by default, allow `CALORIE_TRACKER_DATA_DIR` override, create the selected directory, and keep the SQLite file outside the repository
+- [X] T007 [P] Create `src/backend/app/storage/schema.sql` with meal-entry and singleton-target tables; enforce the category set `Breakfast`, `Lunch`, `Dinner`, `Snack`, local calendar date format, quantity `0.01-100.00`, calories per serving `0.00-10000.00`, protein per serving `0.00-1000.00`, calorie target `1.00-100000.00`, and protein target `0.01-10000.00` as inclusive bounds
+- [X] T008 Implement `src/backend/app/storage/database.py` to initialize the schema from T007, use the data path from T006, seed current targets to `2000.00` kcal and `50.00` g once, and provide transaction commit/rollback boundaries (depends on T006, T007)
+- [X] T009 [P] Implement `src/backend/app/domain/numeric.py` to parse unsigned decimal strings with at most two fractional digits into integer hundredths, reject malformed or out-of-range values without float conversion, calculate unrounded totals, and format two-decimal amounts and one-decimal half-up progress
+- [X] T010 [P] Define request/response schemas and shared error helpers in `src/backend/app/api/schemas.py` and `src/backend/app/api/errors.py` to match `specs/001-calorie-tracker/contracts/openapi.yaml`, including field-level `validation_failed`, `not_found`, and `persistence_failed` envelopes
+- [X] T011 Compose the FastAPI application in `src/backend/app/main.py` and `src/backend/app/api/router.py`; include API routes, serve `src/backend/app/static`, bind only to `127.0.0.1`, and reject state-changing requests with an unexpected Host/Origin (depends on T008, T010)
+- [X] T012 [P] Implement same-origin typed request helpers in `src/frontend/src/api/client.ts` for the operations and decimal-string contracts in `specs/001-calorie-tracker/contracts/openapi.yaml` (depends on T003, T004, T005)
 
 **Checkpoint**: Backend storage, numeric rules, schemas, API composition, React bootstrap, frontend client, and build configuration are ready before story work begins.
 
 ---
 
-## Phase 3: User Story 1 - Record and Correct Meals (Priority: P1)
-
-**Goal**: Create, view, edit, and delete manually entered meals, with each saved contribution reflected in daily totals.
-
-**Independent Test**: Using only the foundation and US1, add a meal, verify its totals, edit its quantity and date, then delete it; confirm old contributions are replaced/removed and persisted entries appear only on their assigned date.
-
 ### Implementation for User Story 1
 
-- [ ] T013 [US1] Implement meal persistence operations in `src/backend/app/storage/meals.py` for insert, lookup, full replacement, delete, and date-filtered reads using one transaction per mutation (depends on T008)
-- [ ] T014 [US1] Implement `src/backend/app/domain/meals.py` to validate and convert meal fields, calculate each contribution as quantity multiplied by per-serving values, and derive totals from saved entries without intermediate rounding (depends on T009, T013)
-- [ ] T015 [US1] Implement `POST /api/meals`, `PUT /api/meals/{mealId}`, and `DELETE /api/meals/{mealId}` in `src/backend/app/api/meals.py`, plus `GET /api/days/{date}` in `src/backend/app/api/days.py` to return selected-day meals and totals using the seeded current targets and the contract schemas (depends on T010, T011, T014)
-- [ ] T016 [P] [US1] Create the add/edit form in `src/frontend/src/features/meals/MealForm.tsx` with name, category, local date, quantity, kcal per serving, and protein per serving fields; submit decimal values as strings (depends on T005, T012)
-- [ ] T017 [US1] Create `src/frontend/src/features/meals/MealList.tsx` and `src/frontend/src/features/summary/DailyIntake.tsx` to show selected-day meals, actual totals, and zero intake with a no-entry state; expose edit/delete actions that refresh the confirmed day after successful API responses (depends on T012, T015, T016)
-- [ ] T018 [US1] Connect the meal form and list in `src/frontend/src/App.tsx` and load the selected day's meals through the API client (depends on T015, T017)
+- [X] T013 [US1] Implement meal persistence operations in `src/backend/app/storage/meals.py` for insert, lookup, full replacement, delete, and date-filtered reads using one transaction per mutation (depends on T008)
+- [X] T014 [US1] Implement `src/backend/app/domain/meals.py` to validate and convert meal fields, calculate each contribution as quantity multiplied by per-serving values, and derive totals from saved entries without intermediate rounding (depends on T009, T013)
+- [X] T015 [US1] Implement `POST /api/meals`, `PUT /api/meals/{mealId}`, and `DELETE /api/meals/{mealId}` in `src/backend/app/api/meals.py`, plus `GET /api/days/{date}` in `src/backend/app/api/days.py` to return selected-day meals and totals using the seeded current targets and the contract schemas (depends on T010, T011, T014)
+- [X] T016 [P] [US1] Create the add/edit form in `src/frontend/src/features/meals/MealForm.tsx` with name, category, local date, quantity, kcal per serving, and protein per serving fields; submit decimal values as strings (depends on T005, T012)
+- [X] T017 [US1] Create `src/frontend/src/features/meals/MealList.tsx` and `src/frontend/src/features/summary/DailyIntake.tsx` to show selected-day meals, actual totals, and zero intake with a no-entry state; expose edit/delete actions that refresh the confirmed day after successful API responses (depends on T012, T015, T016)
+- [X] T018 [US1] Connect the meal form and list in `src/frontend/src/App.tsx` and load the selected day's meals through the API client (depends on T015, T017)
 
 ### Verification for User Story 1
 
-These tests verify completed behavior; no test-first workflow is required.
-
-- [ ] T019 [P] [US1] Add API integration coverage for create, full edit, date change, delete, category values, committed responses, and entry visibility after reopening the same database per AC-001, AC-003-006 in `tests/backend/integration/test_meals.py` (depends on T015)
-- [ ] T020 [P] [US1] Add exact contribution and recomputation unit cases for 2.50 servings, quantity edits, date moves, and deletion per FR-003 and AC-002-005 in `tests/backend/unit/test_meal_totals.py` (depends on T014)
+- [X] T019 [P] [US1] Add API integration coverage for create, full edit, date change, delete, category values, committed responses, and entry visibility after reopening the same database per AC-001, AC-003-006 in `tests/backend/integration/test_meals.py` (depends on T015)
+- [X] T020 [P] [US1] Add exact contribution and recomputation unit cases for 2.50 servings, quantity edits, date moves, and deletion per FR-003 and AC-002-005 in `tests/backend/unit/test_meal_totals.py` (depends on T014)
 
 **Checkpoint**: AC-001-006 pass independently for creating, recalculating, moving, and deleting meal entries.
 
@@ -74,18 +63,18 @@ These tests verify completed behavior; no test-first workflow is required.
 
 ### Implementation for User Story 2
 
-- [ ] T021 [US2] Implement singleton target read/update transactions in `src/backend/app/storage/targets.py`, replacing calorie and protein values atomically (depends on T008)
-- [ ] T022 [US2] Implement `src/backend/app/domain/targets.py` and extend `src/backend/app/domain/meals.py` to apply current targets to every selected date and calculate remaining, excess, and progress from unrounded totals (depends on T014, T021)
-- [ ] T023 [US2] Implement `GET /api/targets` and `PUT /api/targets` in `src/backend/app/api/targets.py`, returning current defaults or saved targets and reporting success only after commit (depends on T010, T011, T021, T022)
-- [ ] T024 [P] [US2] Create target inputs and nutrient progress presentation in `src/frontend/src/features/targets/TargetForm.tsx` and `src/frontend/src/features/summary/NutrientSummary.tsx` using decimal-string API values (depends on T012, T018)
-- [ ] T025 [US2] Connect targets and daily summary into `src/frontend/src/features/summary/DailySummary.tsx` and `src/frontend/src/App.tsx`; display actual intake, target, remaining or excess, and uncapped percentage (depends on T023, T024)
+- [X] T021 [US2] Implement singleton target read/update transactions in `src/backend/app/storage/targets.py`, replacing calorie and protein values atomically (depends on T008)
+- [X] T022 [US2] Implement `src/backend/app/domain/targets.py` and extend `src/backend/app/domain/meals.py` to apply current targets to every selected date and calculate remaining, excess, and progress from unrounded totals (depends on T014, T021)
+- [X] T023 [US2] Implement `GET /api/targets` and `PUT /api/targets` in `src/backend/app/api/targets.py`, returning current defaults or saved targets and reporting success only after commit (depends on T010, T011, T021, T022)
+- [X] T024 [P] [US2] Create target inputs and nutrient progress presentation in `src/frontend/src/features/targets/TargetForm.tsx` and `src/frontend/src/features/summary/NutrientSummary.tsx` using decimal-string API values (depends on T012, T018)
+- [X] T025 [US2] Connect targets and daily summary into `src/frontend/src/features/summary/DailySummary.tsx` and `src/frontend/src/App.tsx`; display actual intake, target, remaining or excess, and uncapped percentage (depends on T023, T024)
 
 ### Verification for User Story 2
 
 These tests verify completed behavior; no test-first workflow is required.
 
-- [ ] T026 [P] [US2] Add API integration tests for default targets, atomic target replacement, and saved target values after reopening the same database per FR-006, FR-010, FR-017, AC-007-008 in `tests/backend/integration/test_targets.py` (depends on T023)
-- [ ] T027 [P] [US2] Add unit cases for below/equal/above comparisons, remaining/excess, uncapped progress, and half-up boundaries per FR-007, AC-009-011, SC-001, and SC-003 in `tests/backend/unit/test_progress.py` (depends on T022, T025)
+- [X] T026 [P] [US2] Add API integration tests for default targets, atomic target replacement, and saved target values after reopening the same database per FR-006, FR-010, FR-017, AC-007-008 in `tests/backend/integration/test_targets.py` (depends on T023)
+- [X] T027 [P] [US2] Add unit cases for below/equal/above comparisons, remaining/excess, uncapped progress, and half-up boundaries per FR-007, AC-009-011, SC-001, and SC-003 in `tests/backend/unit/test_progress.py` (depends on T022, T025)
 
 **Checkpoint**: AC-007-011 pass independently for default/saved targets and below/equal/above progress states.
 
@@ -99,19 +88,19 @@ These tests verify completed behavior; no test-first workflow is required.
 
 ### Implementation for User Story 4
 
-- [ ] T028 [US4] Implement strict field validation in `src/backend/app/domain/validation.py`; trim names then require 1-80 characters, accept only the four specified categories and real local ISO dates through today, enforce each inclusive numeric range, and reject malformed strings before any write (depends on T009, T010)
-- [ ] T029 [US4] Map validation and missing-entry outcomes in `src/backend/app/api/errors.py` and `src/backend/app/api/meals.py`/`src/backend/app/api/targets.py` to field-specific 422 and not-found 404 responses without exposing database internals (depends on T028)
-- [ ] T030 [US4] Ensure write paths in `src/backend/app/storage/meals.py`, `src/backend/app/storage/targets.py`, and `src/backend/app/storage/database.py` roll back failed create/edit/delete/target operations and expose success only after commit (depends on T013, T021)
-- [ ] T031 [US4] Update `src/frontend/src/api/client.ts`, `src/frontend/src/features/meals/MealForm.tsx`, and `src/frontend/src/features/targets/TargetForm.tsx` to display field/persistence errors and preserve last-confirmed UI state without optimistic success (depends on T012, T016, T024, T029, T030)
-- [ ] T032 [US4] Enforce local-only delivery in `src/backend/app/main.py`, `src/frontend/vite.config.ts`, and `src/frontend/index.html`: loopback runtime, same-origin API/assets, no remote scripts/fonts/telemetry, and no permissive cross-origin access per FR-016, NFR-001/002, and AC-023-025 (depends on T011, T004, T005)
+- [X] T028 [US4] Implement strict field validation in `src/backend/app/domain/validation.py`; trim names then require 1-80 characters, accept only the four specified categories and real local ISO dates through today, enforce each inclusive numeric range, and reject malformed strings before any write (depends on T009, T010)
+- [X] T029 [US4] Map validation and missing-entry outcomes in `src/backend/app/api/errors.py` and `src/backend/app/api/meals.py`/`src/backend/app/api/targets.py` to field-specific 422 and not-found 404 responses without exposing database internals (depends on T028)
+- [X] T030 [US4] Ensure write paths in `src/backend/app/storage/meals.py`, `src/backend/app/storage/targets.py`, and `src/backend/app/storage/database.py` roll back failed create/edit/delete/target operations and expose success only after commit (depends on T013, T021)
+- [X] T031 [US4] Update `src/frontend/src/api/client.ts`, `src/frontend/src/features/meals/MealForm.tsx`, and `src/frontend/src/features/targets/TargetForm.tsx` to display field/persistence errors and preserve last-confirmed UI state without optimistic success (depends on T012, T016, T024, T029, T030)
+- [X] T032 [US4] Enforce local-only delivery in `src/backend/app/main.py`, `src/frontend/vite.config.ts`, and `src/frontend/index.html`: loopback runtime, same-origin API/assets, no remote scripts/fonts/telemetry, and no permissive cross-origin access per FR-016, NFR-001/002, and AC-023-025 (depends on T011, T004, T005)
 
 ### Verification for User Story 4
 
 These tests verify completed behavior and follow the relevant implementation tasks; they do not impose a test-first workflow.
 
-- [ ] T033 [P] [US4] Add parameterized API tests in `tests/backend/integration/test_validation.py`: accept trimmed names of 1/80 characters, categories Breakfast/Lunch/Dinner/Snack, real dates through today, quantity 0.01/100.00, kcal 0.00/10000.00, protein 0.00/1000.00, calorie target 1.00/100000.00, and protein target 0.01/10000.00; reject blank/81-character names, invalid category/date/future dates, values immediately outside every numeric bound, zero quantity/targets, negatives, signs, commas, exponent notation, malformed text, and excess precision per FR-012-015 and AC-019-022 (depends on T028, T029)
-- [ ] T034 [P] [US4] Inject storage/commit failures for create, edit, delete, and target update in `tests/backend/integration/test_persistence_failures.py`; assert error codes, no success response, rollback, and unchanged saved data per FR-011, NFR-003, AC-015-018, and SC-005 (depends on T015, T023, T030)
-- [ ] T035 [P] [US4] Test field-specific API errors and retention of last-confirmed meal/target state after failed requests in `tests/frontend/validation_and_failures.test.tsx` per FR-011, FR-015, AC-022, and SC-002 (depends on T031)
+- [X] T033 [P] [US4] Add parameterized API tests in `tests/backend/integration/test_validation.py`: accept trimmed names of 1/80 characters, categories Breakfast/Lunch/Dinner/Snack, real dates through today, quantity 0.01/100.00, kcal 0.00/10000.00, protein 0.00/1000.00, calorie target 1.00/100000.00, and protein target 0.01/10000.00; reject blank/81-character names, invalid category/date/future dates, values immediately outside every numeric bound, zero quantity/targets, negatives, signs, commas, exponent notation, malformed text, and excess precision per FR-012-015 and AC-019-022 (depends on T028, T029)
+- [X] T034 [P] [US4] Inject storage/commit failures for create, edit, delete, and target update in `tests/backend/integration/test_persistence_failures.py`; assert error codes, no success response, rollback, and unchanged saved data per FR-011, NFR-003, AC-015-018, and SC-005 (depends on T015, T023, T030)
+- [X] T035 [P] [US4] Test field-specific API errors and retention of last-confirmed meal/target state after failed requests in `tests/frontend/validation_and_failures.test.tsx` per FR-011, FR-015, AC-022, and SC-002 (depends on T031)
 
 **Checkpoint**: AC-015-025, NFR-001-003, and SC-002/SC-005 pass for validation, failures, local use, and privacy.
 
@@ -125,16 +114,16 @@ These tests verify completed behavior and follow the relevant implementation tas
 
 ### Implementation for User Story 3
 
-- [ ] T036 [US3] Extend `src/backend/app/storage/meals.py` with date-scoped meal reads and ensure date changes are visible only under the committed new date per FR-003, FR-004, and FR-008 (depends on T013)
-- [ ] T037 [US3] Extend `src/backend/app/domain/days.py` and `src/backend/app/api/days.py` to serve any valid historical date through today, reject future dates, and combine that date's entries with current global targets (depends on T015, T022, T036)
-- [ ] T038 [US3] Create `src/frontend/src/features/summary/CalendarDateControl.tsx` to select today or earlier dates and connect selection to `src/frontend/src/App.tsx`; show each selected date's entries and the existing empty state (depends on T025, T037)
+- [X] T036 [US3] Extend `src/backend/app/storage/meals.py` with date-scoped meal reads and ensure date changes are visible only under the committed new date per FR-003, FR-004, and FR-008 (depends on T013)
+- [X] T037 [US3] Extend `src/backend/app/domain/days.py` and `src/backend/app/api/days.py` to serve any valid historical date through today, reject future dates, and combine that date's entries with current global targets (depends on T015, T022, T036)
+- [X] T038 [US3] Create `src/frontend/src/features/summary/CalendarDateControl.tsx` to select today or earlier dates and connect selection to `src/frontend/src/App.tsx`; show each selected date's entries and the existing empty state (depends on T025, T037)
 
 ### Verification for User Story 3
 
 These tests verify completed behavior; no test-first workflow is required.
 
-- [ ] T039 [P] [US3] Add API tests for two-date isolation, past/today acceptance, future-date rejection, and empty-day summaries with current targets per FR-008/009, AC-012-014 in `tests/backend/integration/test_days.py` (depends on T036, T037)
-- [ ] T040 [P] [US3] Test date selection, future-date disabling, historical summary refresh, and empty-state display per AC-012-014 in `tests/frontend/history.test.tsx` (depends on T038)
+- [X] T039 [P] [US3] Add API tests for two-date isolation, past/today acceptance, future-date rejection, and empty-day summaries with current targets per FR-008/009, AC-012-014 in `tests/backend/integration/test_days.py` (depends on T036, T037)
+- [X] T040 [P] [US3] Test date selection, future-date disabling, historical summary refresh, and empty-state display per AC-012-014 in `tests/frontend/history.test.tsx` (depends on T038)
 
 **Checkpoint**: AC-012-014 pass independently for historical dates, date isolation, and empty days.
 
@@ -144,8 +133,8 @@ These tests verify completed behavior; no test-first workflow is required.
 
 **Purpose**: Reproduce the setup and verify end-to-end behavior without adding scope.
 
-- [ ] T041 Review `specs/001-calorie-tracker/quickstart.md` against the implemented setup, build output, test commands, and offline smoke procedure; correct only commands or paths that differ from the implementation
-- [ ] T042 Run the backend and frontend suites plus the quickstart offline acceptance smoke test, then record actual commands, outcomes, and any unverified criteria in `docs/verification-results.md`
+- [X] T041 Review `specs/001-calorie-tracker/quickstart.md` against the implemented setup, build output, test commands, and offline smoke procedure; correct only commands or paths that differ from the implementation
+- [X] T042 Run the backend and frontend suites plus the quickstart offline acceptance smoke test, then record actual commands, outcomes, and any unverified criteria in `docs/verification-results.md`
 
 ---
 

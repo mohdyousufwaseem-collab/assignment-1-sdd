@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Node and generated assets
+node_modules/
+src/backend/app/static/
+coverage/
+dist/
+
+# Local configuration and data
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+Thumbs.db
+.DS_Store

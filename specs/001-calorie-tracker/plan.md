@@ -2,7 +2,7 @@
 
 **Branch**: `001-calorie-tracker` | **Date**: 2026-10-28 | **Spec**: [spec.md](spec.md)
 
-**Status**: Draft technical design for project-owner review; no mentor approval is represented.
+**Status**: Reviewed and approved by the project owner on 2026-10-30; no mentor approval is represented.
 
 **Input**: Existing feature specification, clarification log, requirements checklist, and project constitution.
 
@@ -102,7 +102,7 @@ the comparison for all historical dates; no target history is stored.
 | Design/test area | Specification coverage |
 |---|---|
 | Entry contract, categories, CRUD, date moves, persistence | FR-001–005, FR-008, FR-010; AC-001–006, AC-012, AC-014; SC-004 |
-| Targets and daily comparison | FR-006–007, FR-017; AC-007–011, AC-013; SC-003 |
+| Targets and daily comparison | FR-006–007, FR-009, FR-017; AC-007–011, AC-013; SC-003 |
 | Validation and error feedback | FR-012–015; AC-019–022; SC-002 |
 | Local-only use and privacy | FR-016, NFR-001–002; AC-023–025 |
 | Persistence failure/confirmed state | FR-011, NFR-003; AC-015–018; SC-005 |
@@ -177,10 +177,16 @@ platform-specific data-directory and setup/verification work.
 | Correctness and validation | Pass: integer scaled storage, exact aggregation, unrounded comparisons, explicit display rounding, strict input parsing, and field-level errors are specified. |
 | Traceability and verification | Pass: FR/NFR/AC/SC identifiers are retained in the plan and coverage matrix; quickstart links concrete checks. |
 | Privacy and security | Pass: loopback binding, local-only storage/assets, no data transmission, and no secret storage are specified. |
-| Maintainability and human review | Pass as design: modular layout and reproducible commands are documented; plan remains a draft for owner review, and no mentor approval is claimed. |
+| Maintainability and human review | Pass: modular layout and reproducible commands are documented; project-owner review is recorded below, and no mentor approval is claimed. |
 
 No post-design gate failures remain. The v1 platform assumption is Windows 10/11 only; it is
-documented above and remains subject to project-owner review with the rest of this draft plan.
+documented above and remains subject to project-owner review if the project scope changes.
+
+## Project-Owner Review
+
+The project owner reviewed and approved this plan on 2026-10-30. The specification assumptions
+were previously accepted as the planning baseline in the clarification log on 2026-10-28. No
+mentor or business-owner approval is claimed.
 
 ## Complexity Tracking
 

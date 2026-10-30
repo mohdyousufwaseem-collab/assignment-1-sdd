@@ -223,6 +223,8 @@ npm --prefix src\frontend run build
 
 ## Existing Project Documentation
 
+- [Prompt log](docs/prompt-log.md): recorded prompts, project decisions, AI contributions, and
+  verification history.
 - [Clarification log](docs/clarification-log.md): scope decisions and review record.
 - [Verification results](docs/verification-results.md): recorded test, build, audit, and browser
   smoke outcomes, including the offline-test limitation.

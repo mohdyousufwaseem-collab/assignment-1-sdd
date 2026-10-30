@@ -2,7 +2,7 @@
 
 **Assignment:** Assignment 1 — Spec-Driven Development  
 **Document version:** 1.0  
-**Status:** Independently clarified; pending consistency review  
+**Status:** Independently clarified and reviewed; accepted as the planning baseline
 **Decision owner:** Project owner  
 **Business-owner consultation:** Not conducted; decisions below are independent proposals based on the supplied business request.
 
@@ -69,13 +69,13 @@ This log identifies the unanswered questions, documents the decisions selected f
 
 - Decisions documented by: Project owner
 - Decision date: 2026-10-27
-- Review status: Initial independent review pending
+- Review status: Superseded by the project-owner review recorded below
 - External mentor approval: Not obtained
-- Specification baseline: Not yet established
+- Specification baseline: Accepted by the project owner on 2026-10-28
 
 ## 6. Change Control
 
-Any changed decision must be recorded here with the affected question ID, previous decision, revised decision, reason for change, and date. Changes affecting the specification must be reflected in the corresponding requirements and acceptance criteria before the planning baseline is established.
+Any changed decision must be recorded here with the affected question ID, previous decision, revised decision, reason for change, and date. Changes affecting the specification must be reflected in the corresponding requirements and acceptance criteria before the revised baseline is used.
 
 
 ## Independent Specification Review — 2026-10-28

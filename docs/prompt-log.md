@@ -49,9 +49,9 @@ This log records the main prompt-driven sessions used to specify, design, implem
 
 **My Contribution and Decisions:** Provided the project objective and scope, required consistency with the Constitution and clarification log, and specified that unresolved decisions must be identified rather than treated as approved. Required measurable acceptance criteria, stable identifiers, clear validation rules, and strict separation between the feature specification and later technical planning and implementation.
 
-**Artifacts** - Created `specs/001-calorie-tracker/spec.md`. and the associated requirements checklist at`specs/001-calorie-tracker/checklists/requirements.md`. The feature metadata was recorded in `.specify/feature.json`. 
+**Artifacts:** Created `specs/001-calorie-tracker/spec.md` and the associated requirements checklist at `specs/001-calorie-tracker/checklists/requirements.md`. Feature metadata was recorded in `.specify/feature.json`.
 
-**Recorded result:** 17 functional requirements, 3 non-functional requirements, 25 acceptance criteria, and 5 success criteria were tracked in the specification work. The specification remained a draft; assumptions requiring approval were not represented as approved.
+**Recorded result:** The specification work tracked 17 functional requirements, 3 non-functional requirements, 25 acceptance criteria, and 5 success criteria. The specification was initially a draft; assumptions requiring approval were not represented as approved at that stage.
 
 ## Session 3 --- Refine calculation and acceptance details
 
@@ -72,14 +72,14 @@ example `1.005 → 1.01`.
 **AI Contribution** - Checked heading formatting, escaped punctuation/identifiers, and HTML entities. 
 - The check found no required changes: no bold-wrapped headings were detected and the relevant punctuation/identifier formatting was already valid.
 
-**My Contribution:** Reviewed the specification documnet.
+**My Contribution:** Reviewed the specification document.
 
 **Result:** Inspection only; no content change was reported.
 
 
 ## Session 5 --- Create the technical plan and design artifacts
 
-**Prompt:**"/speckit-plan Create the technical implementation plan for the existing Calorie and Nutrition Tracker specification.
+**Prompt:** `/speckit-plan` Create the technical implementation plan for the existing Calorie and Nutrition Tracker specification.
 Before planning, read:
 - `.specify/memory/constitution.md`
 - `docs/clarification-log.md`
@@ -92,11 +92,7 @@ Do not add out-of-scope features or begin implementation. Do not claim mentor ap
 Generate the technical plan and the supporting artifacts required by the existing Spec Kit workflow in their canonical locations.
 When finished, summarize the generated files, the architecture selected, and any remaining decisions or risks."
 
-**Artifacts** - Created `specs/001-calorie-tracker/plan.md`. 
-- Created `specs/001-calorie-tracker/research.md`. 
-- Created `specs/001-calorie-tracker/data-model.md`. 
-- Created `specs/001-calorie-tracker/contracts/openapi.yaml`.
-- Created `specs/001-calorie-tracker/quickstart.md`.
+**Artifacts:** Created `specs/001-calorie-tracker/plan.md`, `specs/001-calorie-tracker/research.md`, `specs/001-calorie-tracker/data-model.md`, `specs/001-calorie-tracker/contracts/openapi.yaml`, and `specs/001-calorie-tracker/quickstart.md`.
 
 **Result / limitation:** Design artifacts were created. The plan was explicitly a draft; no mentor approval was claimed. Windows was the current workspace target, with broader OS support initially unresolved.
 No application tests were run in this planning session.
@@ -109,7 +105,7 @@ No application tests were run in this planning session.
 **AI Contribution** - Created `specs\001-calorie-tracker\tasks.md` with 41 tasks: 4 setup, 7 foundational, 28 story tasks, and 2 polish tasks.
 Story breakdown: US1 has 8 tasks, US2 has 7, US4 has 8, and US3 has 5. Their independent checks cover meal CRUD and recalculated totals; target comparisons below/at/above goals; validation, failed writes, and local-only operation; and historical-date isolation with empty-day behavior.
 Parallel work is identified for independent setup manifests, numeric/schema foundation work, separate test files, and frontend components that can proceed alongside backend work. The suggested MVP is Setup + Foundational followed by US1.
-Validation confirmed all 41 tasks have unique sequential IDs, required story labels, file paths, and valid earlier dependencies; every acceptance criterion is traced. Editor diagnostics report no errors. No after_tasks hooks are configured. No application code or docs/prompt-log.md was created. The plan’s open question about support beyond Windows remains documented.
+Validation confirmed all 41 tasks have unique sequential IDs, required story labels, file paths, and valid earlier dependencies; every acceptance criterion is traced. Editor diagnostics report no errors. No after_tasks hooks are configured. This task-generation session did not create application code or `docs/prompt-log.md`. The plan’s open question about support beyond Windows remained documented at that time.
 
 **My Contribution and Decisions:** Reviewed the existing task document and identified the need for clearer frontend setup requirements, explicit task dependencies, and more complete verification coverage. Directed minimal changes while preserving the established implementation strategy, existing task identifiers where possible, and consistency with the SDD artifacts. Required the work to remain limited to planning documents, with no application code changes or unsupported claims of test execution.
 
@@ -127,7 +123,7 @@ Validation confirmed all 41 tasks have unique sequential IDs, required story lab
 
 **Prompt:** Run the Spec Kit analysis workflow against the specification, plan, and task list.
 
-**Findings recorded** - Requirement-to-task coverage was complete.Potential issues included stale parallel-work wording, test task ordering relative to the stated no-TDD approach, test filename/discovery mismatch, and an ambiguous success criterion referring to a "stated validation matrix." - No critical finding was reported in the available analysis summary.
+**Findings recorded:** Requirement-to-task coverage was reported complete. Potential issues included stale parallel-work wording, test-task ordering relative to the stated no-TDD approach, test filename/discovery mismatch, and an ambiguous success criterion referring to a "stated validation matrix." No critical finding was reported in the available analysis summary.
 
 **Result:** Analysis findings informed the next remediation session.
 
@@ -236,50 +232,18 @@ and attempted a separate test TypeScript configuration.
 
 ## Verification summary supported by the available transcripts
 
-  ---------------------------------------------------------------------------------
-  Check                   Recorded result         Qualification
-  ----------------------- ----------------------- ---------------------------------
-  Backend automated tests 58 passed               From the implementation
-                                                  verification transcript; not a
-                                                  fresh run during creation of this
-                                                  log.
-
-  Frontend automated      5 passed                From the
-  tests                                           implementation/type-diagnostics
-                                                  transcripts; not a fresh run
-                                                  during creation of this log.
-
-  TypeScript typecheck    Passed                  Reported after frontend test
-                                                  TypeScript configuration was
-                                                  corrected.
-
-  Production frontend     Passed                  Reported in the implementation
-  build                                           verification transcript.
-
-  `npm audit`             0 vulnerabilities       Reported at implementation/README
-                                                  preparation time; audit results
-                                                  can change as dependencies
-                                                  change.
-
-  Browser smoke checks    Passed for recorded     Used temporary database data;
-                          scenarios               covered meal operations,
-                                                  reload/persistence, targets, date
-                                                  changes, deletion, and empty
-                                                  state.
-
-
-  SDD task completion     42/42 tasks checked     The transcript reports exactly 42
-                                                  unique checked tasks.
-
-  Acceptance-criterion    25/25 covered           Reported by the SDD analysis.
-  traceability                                    
-
-  SDD analysis            No critical issues      Medium-level concerns about
-                          reported                rollback-failure injection and
-                                                  offline verification remained
-                                                  noted.
-
-  ---------------------------------------------------------------------------------
+| Check | Recorded result | Qualification |
+|---|---|---|
+| Backend automated tests | 58 passed | From the implementation-verification transcript; not rerun while preparing this log. |
+| Frontend automated tests | 5 passed | From the implementation/type-diagnostics transcripts; not rerun while preparing this log. |
+| TypeScript typecheck | Passed | Reported after the frontend test TypeScript configuration was corrected. |
+| Production frontend build | Passed | Reported in the implementation-verification transcript. |
+| `npm audit` | 0 vulnerabilities | Reported at implementation/README preparation time; audit results can change as dependencies change. |
+| Browser smoke checks | Passed for recorded scenarios | Temporary database; covered meal operations, reload/persistence, targets, date changes, deletion, and empty state. External requests were blocked, but internet access was not physically disabled. |
+| SDD task completion | 42/42 checked | The transcript reports 42 unique checked tasks. |
+| Acceptance-criterion traceability | 25/25 covered | Reported by the prior SDD analyses. |
+| Earlier SDD analysis | No critical issues reported | Historical result; later analysis identified issues described in Session 18. |
+| Latest SDD analysis | 1 critical and 1 medium finding | Both findings were addressed in Session 18. No post-remediation analysis has been run, so closure has not been independently reverified. |
 
 ## Known limitations and follow-up notes
 
@@ -298,3 +262,21 @@ and attempted a separate test TypeScript configuration.
     verify that previously committed database state remains intact.
 -   FastAPI/Starlette deprecation warnings were reported as
     non-blocking.
+
+## Session 18 --- Resolve specification analysis findings
+
+**Prompt:** Resolve all issues from the latest `/speckit-analyze` report and ensure the project prompt log reflects the work.
+
+**AI contribution:**
+
+- Reviewed the clarification log and confirmed its record of project-owner acceptance of the specification assumptions as the planning baseline on 2026-10-28.
+- Updated the specification and clarification-log statuses to match that review.
+- Recorded the project owner's explicit approval of the technical plan on 2026-10-30, without claiming mentor or business-owner approval.
+- Added the missing FR-009 reference to the plan's target/summary traceability row.
+- Updated this existing prompt log; no duplicate prompt-log file was created.
+
+**Project-owner decision:** Explicitly approved recording the technical plan as reviewed and approved on 2026-10-30.
+
+**Result:** The critical review-status mismatch and the missing plan-matrix reference identified by the analysis were addressed. No implementation code or test behavior changed. The analysis report's coverage assessment was preserved; no files were modified by the analysis itself.
+
+**Verification limitation:** `/speckit-analyze` has not been rerun since these documentation changes. The findings are recorded as addressed, pending a fresh analysis to verify closure.

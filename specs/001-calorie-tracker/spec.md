@@ -4,7 +4,7 @@
 
 **Created:** 2026-10-27
 
-**Status:** Draft
+**Status:** Reviewed by project owner; planning baseline accepted
 
 **Input:** Build a simple, locally runnable application for one local user to record meals,
 track daily calories and protein, configure daily targets, and view progress, including previous
@@ -176,8 +176,8 @@ create, edit, delete, and target-update operations and verify the last saved sta
 
 ## Assumptions
 
-The following are proposed specification decisions, not business-owner approvals. The project
-owner MUST review them before this specification is accepted as the planning baseline:
+The following are project decisions accepted by the project owner as the planning baseline.
+They are not business-owner approvals and may be revised if requirements change:
 
 - **Entry fields and quantity**: The clarification log's Q-10 mentions quantity, while Q-02 lists only a food name, calories, and protein. For the initial version, an entry includes quantity in servings, calories per serving, and protein per serving. This makes quantity meaningful and defines how it affects totals.
 - **Food name**: Trim surrounding whitespace; accept 1 through 80 characters after trimming.
